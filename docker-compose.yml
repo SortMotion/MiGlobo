@@ -1,0 +1,20 @@
+# n8n local para desarrollo. Uso: docker compose up -d n8n
+# La base de datos de la app vive en Supabase (nube), no aquí.
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=America/Mexico_City
+      - TZ=America/Mexico_City
+      # URL pública (túnel de cloudflared o servidor). Meta necesita HTTPS.
+      - WEBHOOK_URL=${WEBHOOK_URL:-http://localhost:5678/}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:

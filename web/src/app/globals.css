@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Piezas que se repiten en todo el panel. */
+@layer components {
+  .input {
+    @apply rounded-lg border border-black/15 bg-transparent px-3 py-2 dark:border-white/20;
+  }
+  .btn-primario {
+    @apply rounded-lg bg-foreground px-4 py-2 font-medium text-background;
+  }
+  .btn-secundario {
+    @apply rounded-lg border border-black/15 px-4 py-2 font-medium dark:border-white/20;
+  }
+  .tarjeta {
+    @apply rounded-xl border border-black/10 p-4 dark:border-white/15;
+  }
+  .aviso {
+    @apply rounded-lg bg-sky-500/10 px-3 py-2 text-sm text-sky-800 dark:text-sky-300;
+  }
+  .aviso-error {
+    @apply rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-700 dark:text-red-300;
+  }
+  .tabla {
+    @apply w-full text-left text-sm;
+  }
+  .tabla th {
+    @apply border-b border-black/10 py-2 pr-4 font-medium text-zinc-500 dark:border-white/15;
+  }
+  .tabla td {
+    @apply border-b border-black/5 py-2 pr-4 dark:border-white/10;
+  }
+}
