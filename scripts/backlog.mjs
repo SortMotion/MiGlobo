@@ -23,7 +23,18 @@ export const labels = [
 
 // Valores de los campos del Project.
 export const prioridades = { M: "Mínimo demo", D: "Deseable", F: "Futuro" };
-export const roles = { A: "A · Web", B: "B · Automatización", C: "C · Datos y evaluación", T: "Todos" };
+export const roles = {
+  A: "Adriel · Web",
+  B: "Andy · Automatización e IA",
+  C: "Diego · Datos, evaluación y UI",
+  T: "Todos",
+};
+
+// Usuarios de GitHub de cada rol. Los compartidos (T) se asignan a los tres.
+const ADRIEL = "ByiDray";
+const ANDY = "andyPlazaCardenas";
+const DIEGO = "diegohdez100106-ya";
+export const equipo = { A: [ADRIEL], B: [ANDY], C: [DIEGO], T: [ADRIEL, ANDY, DIEGO] };
 
 const objetivos = [
   null,
@@ -48,7 +59,7 @@ export const issues = [
   // ─── Fase 0 · Arranque ────────────────────────────────────────────
   i({
     titulo: "Configurar el repo: proteger main e invitar al equipo",
-    fase: 0, area: ["docs"], rol: "C", prio: "M",
+    fase: 0, area: ["docs"], rol: "C", prio: "M", pts: 1,
     que: "Dejar el repositorio listo para trabajar con Pull Requests.",
     listo: [
       "Andy y Diego tienen acceso de escritura al repo",
@@ -60,7 +71,7 @@ export const issues = [
   }),
   i({
     titulo: "Crear proyecto en Supabase y correr las migraciones",
-    fase: 0, area: ["db"], rol: "C", prio: "M",
+    fase: 0, area: ["db"], rol: "C", prio: "M", pts: 2,
     que: "Un solo proyecto de Supabase compartido por el equipo.",
     listo: [
       "Proyecto creado e integrantes invitados a la organización de Supabase",
@@ -72,7 +83,7 @@ export const issues = [
   }),
   i({
     titulo: "Cada integrante corre la web en su compu",
-    fase: 0, area: ["web"], rol: "T", prio: "M",
+    fase: 0, area: ["web"], rol: "T", prio: "M", pts: 1,
     que: "Comprobar que todos pueden desarrollar con la misma base de datos.",
     listo: [
       "Andy: `npm run dev`, crea cuenta y negocio",
@@ -84,7 +95,7 @@ export const issues = [
   }),
   i({
     titulo: "Crear app de Meta y número de prueba de WhatsApp",
-    fase: 0, area: ["n8n"], rol: "B", prio: "M",
+    fase: 0, area: ["n8n"], rol: "B", prio: "M", pts: 2,
     que: "Obtener todo lo necesario para recibir y mandar mensajes con la WhatsApp Cloud API.",
     listo: [
       "App de Meta creada con el producto WhatsApp",
@@ -96,7 +107,7 @@ export const issues = [
   }),
   i({
     titulo: "Levantar n8n con túnel y recibir el primer webhook",
-    fase: 0, area: ["n8n"], rol: "B", prio: "M",
+    fase: 0, area: ["n8n"], rol: "B", prio: "M", pts: 3,
     que: "n8n accesible por HTTPS para que Meta le mande los mensajes.",
     listo: [
       "n8n corriendo (Docker o `npx n8n`) con `WEBHOOK_URL` del túnel",
@@ -110,7 +121,7 @@ export const issues = [
   // ─── Fase 1 · Análisis ────────────────────────────────────────────
   i({
     titulo: "Entrevistar a 3–5 emprendedores estudiantiles",
-    fase: 1, area: ["evaluacion"], rol: "T", prio: "M",
+    fase: 1, area: ["evaluacion"], rol: "T", prio: "M", pts: 3,
     que: "Entender cómo venden hoy, desde el primer mensaje hasta la entrega.",
     listo: [
       "Al menos 3 entrevistas hechas con la guía",
@@ -122,7 +133,7 @@ export const issues = [
   }),
   i({
     titulo: "Ajustar requerimientos y prioridades con las entrevistas",
-    fase: 1, area: ["docs"], rol: "C", prio: "M",
+    fase: 1, area: ["docs"], rol: "C", prio: "M", pts: 2,
     que: "Actualizar la lista de requerimientos con lo que dijeron los emprendedores.",
     listo: [
       "`docs/requerimientos.md` actualizado (agregar, quitar o cambiar prioridad)",
@@ -132,7 +143,7 @@ export const issues = [
   }),
   i({
     titulo: "Documentar la viabilidad técnica de conectar las redes",
-    fase: 1, area: ["n8n", "docs"], rol: "B", prio: "M",
+    fase: 1, area: ["n8n", "docs"], rol: "B", prio: "M", pts: 3,
     que: "Responder la pregunta abierta del análisis: qué se puede conectar, con qué permisos y qué límites.",
     listo: [
       "WhatsApp: número de prueba vs. número real de un emprendedor, ventana de 24 h, plantillas",
@@ -143,7 +154,7 @@ export const issues = [
   }),
   i({
     titulo: "Decidir y documentar cómo se manejan los pagos",
-    fase: 1, area: ["docs"], rol: "C", prio: "M",
+    fase: 1, area: ["docs"], rol: "C", prio: "M", pts: 1,
     que: "Pregunta abierta: ¿cobro dentro de la página o solo registro de anticipos? Propuesta actual: solo registro.",
     listo: [
       "Decisión tomada en equipo con su justificación",
@@ -153,7 +164,7 @@ export const issues = [
   }),
   i({
     titulo: "Medir la línea base (semana sin MiGlobo)",
-    fase: 1, area: ["evaluacion"], rol: "C", prio: "M",
+    fase: 1, area: ["evaluacion"], rol: "C", prio: "M", pts: 3,
     que: "Medir cómo les va hoy a los emprendedores para compararlo al final.",
     listo: [
       "Formulario diario creado (Google Forms)",
@@ -166,7 +177,7 @@ export const issues = [
   // ─── Fase 2 · Diseño ──────────────────────────────────────────────
   i({
     titulo: "Bocetos de las pantallas principales en celular",
-    fase: 2, area: ["web"], rol: "A", prio: "M",
+    fase: 2, area: ["web"], rol: "C", prio: "M", pts: 3,
     que: "Diseñar cómo se ven y se usan las pantallas antes de programarlas.",
     listo: [
       "Bocetos de: bandeja de mensajes, conversación, detalle de pedido, registrar anticipo, entregas del día",
@@ -176,7 +187,7 @@ export const issues = [
   }),
   i({
     titulo: "Armar y exportar el flujo whatsapp-entrante en n8n",
-    fase: 2, area: ["n8n"], rol: "B", prio: "M",
+    fase: 2, area: ["n8n"], rol: "B", prio: "M", pts: 5,
     que: "Construir el flujo WhatsApp → guardar mensaje → IA → registrar pedido/clasificar.",
     listo: [
       "Flujo armado según la guía, nodo por nodo",
@@ -188,7 +199,7 @@ export const issues = [
   }),
   i({
     titulo: "Probar el prompt de la IA y medir su precisión inicial",
-    fase: 2, area: ["n8n", "evaluacion"], rol: "B", prio: "M",
+    fase: 2, area: ["n8n", "evaluacion"], rol: "B", prio: "M", pts: 3,
     que: "Saber hasta dónde la IA interpreta bien los mensajes (pregunta abierta del análisis).",
     listo: [
       "Los mensajes de prueba del prompt pasan por el flujo",
@@ -200,7 +211,7 @@ export const issues = [
   }),
   i({
     titulo: "Revisar el modelo de datos con lo aprendido",
-    fase: 2, area: ["db"], rol: "C", prio: "M",
+    fase: 2, area: ["db"], rol: "A", prio: "M", pts: 2,
     que: "Confirmar que las tablas cubren lo que salió en entrevistas y bocetos.",
     listo: [
       "Lista de cambios necesarios (si hay)",
@@ -213,7 +224,7 @@ export const issues = [
   // ─── Fase 3 · Desarrollo (mínimo demo) ────────────────────────────
   i({
     titulo: "RF-03 Editar datos del negocio y conectar WhatsApp",
-    fase: 3, area: ["web"], rol: "A", prio: "M", rf: "RF-03",
+    fase: 3, area: ["web"], rol: "C", prio: "M", pts: 2, rf: "RF-03",
     que: "Pantalla de configuración del negocio, para no tener que usar SQL.",
     listo: [
       "Página `/panel/negocio` con nombre, descripción, slug y WhatsApp de contacto",
@@ -223,7 +234,7 @@ export const issues = [
   }),
   i({
     titulo: "Mostrar errores en los formularios del panel",
-    fase: 3, area: ["web"], rol: "A", prio: "M",
+    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 2,
     que: "Hoy, si una Server Action falla (p. ej. slug repetido), la página truena. Mostrar el error en el formulario.",
     listo: [
       "Formularios usan `useActionState` y muestran el mensaje",
@@ -232,7 +243,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-21 Mensajes agrupados por conversación",
-    fase: 3, area: ["web"], rol: "A", prio: "M", rf: "RF-21",
+    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 5, rf: "RF-21",
     que: "La bandeja muestra un renglón por cliente; al abrirlo se ve la conversación completa.",
     listo: [
       "Lista de conversaciones con último mensaje y contador de no atendidos",
@@ -243,7 +254,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-30 Pedido creado por IA de punta a punta",
-    fase: 3, area: ["n8n"], rol: "B", prio: "M", rf: "RF-30",
+    fase: 3, area: ["n8n"], rol: "B", prio: "M", pts: 5, rf: "RF-30",
     que: "Demo principal: un cliente escribe por WhatsApp y el pedido aparece solo en el panel.",
     listo: [
       "Cliente escribe pedido → aparece en *Pedidos* con origen IA en menos de 10 s",
@@ -255,7 +266,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-33 Crear, editar y cancelar pedidos a mano",
-    fase: 3, area: ["web"], rol: "A", prio: "M", rf: "RF-33",
+    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 8, rf: "RF-33",
     que: "El vendedor puede registrar pedidos que no llegaron por WhatsApp y corregir los de la IA.",
     listo: [
       "Formulario de nuevo pedido: cliente, productos del catálogo, cantidades, notas",
@@ -266,7 +277,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-40 Registrar anticipos y pagos de un pedido",
-    fase: 3, area: ["web", "db"], rol: "C", prio: "M", rf: "RF-40",
+    fase: 3, area: ["web", "db"], rol: "A", prio: "M", pts: 3, rf: "RF-40",
     que: "Desde el detalle del pedido, registrar cuánto pagó el cliente y cómo.",
     listo: [
       "Formulario: monto, tipo (anticipo/liquidación), método",
@@ -276,7 +287,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-42 Verificar pagos",
-    fase: 3, area: ["web"], rol: "C", prio: "M", rf: "RF-42",
+    fase: 3, area: ["web"], rol: "C", prio: "M", pts: 1, rf: "RF-42",
     que: "El vendedor marca un pago como verificado cuando confirma la transferencia. Solo los verificados cuentan en *pagado*.",
     listo: [
       "Botón *Verificar* en la lista de anticipos",
@@ -285,7 +296,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-50 Programar la entrega de un pedido",
-    fase: 3, area: ["web"], rol: "C", prio: "M", rf: "RF-50",
+    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 3, rf: "RF-50",
     que: "Desde el detalle del pedido, definir lugar y hora de entrega (o corregir la que puso la IA).",
     listo: [
       "Formulario con lugar y fecha/hora",
@@ -295,7 +306,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-52 Marcar entregas como realizadas",
-    fase: 3, area: ["web"], rol: "C", prio: "M", rf: "RF-52",
+    fase: 3, area: ["web"], rol: "C", prio: "M", pts: 2, rf: "RF-52",
     que: "Cerrar el ciclo del pedido desde la lista de entregas.",
     listo: [
       "Botón *Entregado* en cada entrega",
@@ -305,7 +316,7 @@ export const issues = [
   }),
   i({
     titulo: "Revisión del panel en celular (RNF-01)",
-    fase: 3, area: ["web"], rol: "A", prio: "M",
+    fase: 3, area: ["web"], rol: "C", prio: "M", pts: 3,
     que: "La mayoría de vendedores usará MiGlobo desde el celular.",
     listo: [
       "Todas las pantallas probadas a 375 px de ancho",
@@ -315,7 +326,7 @@ export const issues = [
   }),
   i({
     titulo: "Desplegar la web en Vercel",
-    fase: 3, area: ["web"], rol: "A", prio: "M",
+    fase: 3, area: ["web"], rol: "C", prio: "M", pts: 1,
     que: "Tener una URL pública para las pruebas de campo.",
     listo: [
       "Proyecto en Vercel con *Root Directory* = `web`",
@@ -326,7 +337,7 @@ export const issues = [
   }),
   i({
     titulo: "Desplegar n8n en un servidor fijo con token permanente",
-    fase: 3, area: ["n8n"], rol: "B", prio: "M",
+    fase: 3, area: ["n8n"], rol: "B", prio: "M", pts: 3,
     que: "El túnel temporal no sirve para las pruebas de campo: n8n debe estar siempre encendido.",
     listo: [
       "n8n en un servidor con URL HTTPS fija",
@@ -340,7 +351,7 @@ export const issues = [
   // ─── Fase 3 · Desarrollo (deseables y futuro) ─────────────────────
   i({
     titulo: "RF-11 Editar, ocultar y poner foto a productos",
-    fase: 3, area: ["web", "db"], rol: "A", prio: "D", rf: "RF-11",
+    fase: 3, area: ["web", "db"], rol: "C", prio: "D", pts: 3, rf: "RF-11",
     que: "Administrar el catálogo completo desde el panel.",
     listo: [
       "Editar nombre, descripción y precio",
@@ -350,7 +361,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-22 Responder mensajes desde el panel",
-    fase: 3, area: ["web", "n8n"], rol: "B", prio: "D", rf: "RF-22",
+    fase: 3, area: ["web", "n8n"], rol: "A", prio: "D", pts: 5, rf: "RF-22",
     que: "Escribir la respuesta en MiGlobo y que llegue por WhatsApp.",
     listo: [
       "Caja de texto en la conversación",
@@ -361,7 +372,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-23 Respuestas automáticas a preguntas frecuentes",
-    fase: 3, area: ["n8n"], rol: "B", prio: "D", rf: "RF-23",
+    fase: 3, area: ["n8n"], rol: "B", prio: "D", pts: 3, rf: "RF-23",
     que: "Cuando la intención es `pregunta`, un agente de IA responde con base en el catálogo.",
     listo: [
       "Responde precio y disponibilidad usando el catálogo",
@@ -371,7 +382,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-34 Ver el mensaje de origen de un pedido de la IA",
-    fase: 3, area: ["web"], rol: "A", prio: "D", rf: "RF-34",
+    fase: 3, area: ["web"], rol: "C", prio: "D", pts: 1, rf: "RF-34",
     que: "Para revisar rápido si la IA entendió bien.",
     listo: [
       "En el detalle del pedido se ve el mensaje original",
@@ -380,7 +391,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-41 Subir comprobante de pago",
-    fase: 3, area: ["web", "db"], rol: "C", prio: "D", rf: "RF-41",
+    fase: 3, area: ["web", "db"], rol: "A", prio: "D", pts: 3, rf: "RF-41",
     que: "Guardar la foto del comprobante junto al pago.",
     listo: [
       "Bucket privado en Supabase Storage con políticas por negocio",
@@ -390,7 +401,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-53 Recordatorio de entrega por WhatsApp",
-    fase: 3, area: ["n8n"], rol: "B", prio: "D", rf: "RF-53",
+    fase: 3, area: ["n8n"], rol: "B", prio: "D", pts: 3, rf: "RF-53",
     que: "Cada mañana, avisar a los clientes que tienen entrega ese día.",
     listo: [
       "Flujo con *Schedule Trigger* diario",
@@ -400,7 +411,7 @@ export const issues = [
   }),
   i({
     titulo: "Generar los tipos de TypeScript desde Supabase",
-    fase: 3, area: ["web", "db"], rol: "C", prio: "D",
+    fase: 3, area: ["web", "db"], rol: "C", prio: "D", pts: 1,
     que: "Reemplazar `web/src/lib/types.ts` escrito a mano por tipos generados.",
     listo: [
       "`npx supabase gen types` genera `database.types.ts`",
@@ -410,7 +421,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-24 Conectar Instagram y Facebook",
-    fase: 3, area: ["n8n", "db"], rol: "B", prio: "F", rf: "RF-24",
+    fase: 3, area: ["n8n", "db"], rol: null, prio: "F", pts: 8, rf: "RF-24",
     que: "Segunda y tercera red social, con el mismo patrón que WhatsApp.",
     listo: [
       "Función `registrar_mensaje_meta` análoga a la de WhatsApp",
@@ -423,7 +434,7 @@ export const issues = [
   // ─── Fase 4 · Evaluación ──────────────────────────────────────────
   i({
     titulo: "Dar de alta a los emprendedores de prueba",
-    fase: 4, area: ["evaluacion"], rol: "T", prio: "M",
+    fase: 4, area: ["evaluacion"], rol: "T", prio: "M", pts: 2,
     que: "Preparar a los participantes de la prueba de campo.",
     listo: [
       "Consentimiento firmado por cada participante",
@@ -435,7 +446,7 @@ export const issues = [
   }),
   i({
     titulo: "Periodo de uso real (1–2 semanas)",
-    fase: 4, area: ["evaluacion"], rol: "T", prio: "M",
+    fase: 4, area: ["evaluacion"], rol: "T", prio: "M", pts: 3,
     que: "Los participantes venden usando MiGlobo y llenan el formulario diario.",
     listo: [
       "Formulario diario llenado todos los días",
@@ -445,7 +456,7 @@ export const issues = [
   }),
   i({
     titulo: "Medición final, cuestionario SUS y precisión de la IA",
-    fase: 4, area: ["evaluacion"], rol: "C", prio: "M",
+    fase: 4, area: ["evaluacion"], rol: "C", prio: "M", pts: 3,
     que: "Llenar la tabla *Después* y comparar.",
     listo: [
       "Métricas *Después* en `docs/evaluacion.md`",
@@ -456,7 +467,7 @@ export const issues = [
   }),
   i({
     titulo: "Reporte de resultados",
-    fase: 4, area: ["docs"], rol: "T", prio: "M",
+    fase: 4, area: ["docs"], rol: "T", prio: "M", pts: 5,
     que: "Documento final que demuestra si se cumplió el objetivo general.",
     listo: [
       "Comparación antes/después con gráficas",
@@ -466,7 +477,7 @@ export const issues = [
   }),
   i({
     titulo: "Preparar la demo final",
-    fase: 4, area: ["docs"], rol: "T", prio: "M",
+    fase: 4, area: ["docs"], rol: "T", prio: "M", pts: 2,
     que: "Presentación en vivo del flujo completo.",
     listo: [
       "Guion: mensaje por WhatsApp → pedido en el panel → anticipo → entrega",

@@ -5,10 +5,11 @@
 //   node scripts/crear-backlog.mjs --dry-run   # solo muestra lo que haría
 //   node scripts/crear-backlog.mjs
 //
-// Se puede correr varias veces: lo que ya existe (por título) no se duplica.
+// Se puede correr varias veces: lo que ya existe (por título) no se duplica, y las
+// asignaciones, Prioridad, Rol y Puntos se actualizan con lo que diga backlog.mjs.
 
 import { execFileSync } from "node:child_process";
-import { fases, issues, labels, prioridades, roles } from "./backlog.mjs";
+import { equipo, fases, issues, labels, prioridades, roles } from "./backlog.mjs";
 
 const OWNER = "SortMotion";
 const REPO = `${OWNER}/MiGlobo`;
@@ -20,6 +21,7 @@ const ESTADOS = [
   { name: "En revisión", color: "PURPLE", description: "PR abierto esperando revisión" },
   { name: "Hecho", color: "GREEN", description: "Merge hecho o tarea terminada" },
 ];
+const COLORES_ROL = ["BLUE", "ORANGE", "GREEN", "GRAY"];
 
 const DRY = process.argv.includes("--dry-run");
 
@@ -66,10 +68,11 @@ if (!project) {
 const campos = () =>
   DRY ? [] : ghJson(["project", "field-list", String(project.number), "--owner", OWNER, "--format", "json"]).fields;
 
-// Columnas del tablero: cambia las opciones del campo Status.
-let lista = campos();
-const status = lista.find((f) => f.name === "Status");
-if (status && status.options.map((o) => o.name).join() !== ESTADOS.map((e) => e.name).join()) {
+// Deja las opciones de un campo de selección exactamente como se piden.
+// Ojo: reemplazar opciones borra el valor de ese campo en los items (se vuelve a poner abajo).
+function asegurarOpciones(campo, opciones) {
+  const f = campos().find((x) => x.name === campo);
+  if (!f || f.options.map((o) => o.name).join() === opciones.map((o) => o.name).join()) return false;
   try {
     gh(
       ["api", "graphql", "--input", "-"],
@@ -77,41 +80,51 @@ if (status && status.options.map((o) => o.name).join() !== ESTADOS.map((e) => e.
         query: `mutation($id: ID!, $opts: [ProjectV2SingleSelectFieldOptionInput!]) {
           updateProjectV2Field(input: { fieldId: $id, singleSelectOptions: $opts }) { clientMutationId }
         }`,
-        variables: { id: status.id, opts: ESTADOS },
+        variables: { id: f.id, opts: opciones },
       }),
     );
-    log("columnas de Status:", ESTADOS.map((e) => e.name).join(", "));
+    log(`opciones de ${campo}:`, opciones.map((o) => o.name).join(", "));
+    return true;
   } catch (e) {
-    console.warn("No se pudieron cambiar las columnas de Status; edítalas a mano en el Project.", e.stderr ?? e.message);
+    console.warn(`No se pudieron cambiar las opciones de ${campo}; edítalas a mano en el Project.`, e.stderr ?? e.message);
+    return false;
   }
 }
 
-for (const [nombre, opciones] of [
-  ["Prioridad", Object.values(prioridades)],
-  ["Rol", Object.values(roles)],
+const statusReiniciado = asegurarOpciones("Status", ESTADOS);
+
+let lista = campos();
+for (const [nombre, tipo, opciones] of [
+  ["Prioridad", "SINGLE_SELECT", Object.values(prioridades)],
+  ["Rol", "SINGLE_SELECT", Object.values(roles)],
+  ["Puntos", "NUMBER"],
 ]) {
   if (lista.some((f) => f.name === nombre)) continue;
-  gh([
-    "project", "field-create", String(project.number), "--owner", OWNER,
-    "--name", nombre, "--data-type", "SINGLE_SELECT", "--single-select-options", opciones.join(","),
-  ]);
+  const args = ["project", "field-create", String(project.number), "--owner", OWNER, "--name", nombre, "--data-type", tipo];
+  if (opciones) args.push("--single-select-options", opciones.join(","));
+  gh(args);
   log("campo", nombre);
 }
 
+asegurarOpciones(
+  "Rol",
+  Object.values(roles).map((name, n) => ({ name, color: COLORES_ROL[n], description: "" })),
+);
+
 lista = campos();
-const opcion = (campo, valor) => {
-  const f = lista.find((x) => x.name === campo);
-  const o = f?.options.find((x) => x.name === valor);
-  return f && o ? { fieldId: f.id, optionId: o.id } : null;
-};
 const ponerCampo = (itemId, campo, valor) => {
   if (DRY) return;
-  const sel = opcion(campo, valor);
-  if (!sel) return console.warn(`No encontré la opción "${valor}" del campo ${campo}`);
-  gh([
-    "project", "item-edit", "--id", itemId, "--project-id", project.id,
-    "--field-id", sel.fieldId, "--single-select-option-id", sel.optionId,
-  ]);
+  const f = lista.find((x) => x.name === campo);
+  if (!f) return console.warn(`No existe el campo ${campo}`);
+  const valorArgs =
+    f.type === "ProjectV2Field" || typeof valor === "number"
+      ? ["--number", String(valor)]
+      : (() => {
+          const o = f.options?.find((x) => x.name === valor);
+          if (!o) throw new Error(`No encontré la opción "${valor}" del campo ${campo}`);
+          return ["--single-select-option-id", o.id];
+        })();
+  gh(["project", "item-edit", "--id", itemId, "--project-id", project.id, "--field-id", f.id, ...valorArgs]);
 };
 
 // ─── Issues ───────────────────────────────────────────────────────────
@@ -125,6 +138,7 @@ const existentes = new Map(
 
 let creados = 0;
 for (const issue of issues) {
+  const asignados = issue.rol ? equipo[issue.rol] : [];
   let url = existentes.get(issue.titulo);
   const nuevo = !url;
   if (nuevo) {
@@ -133,21 +147,25 @@ for (const issue of issues) {
         "issue", "create", "--repo", REPO, "--title", issue.titulo, "--body-file", "-",
         "--milestone", fases[issue.fase].titulo,
         ...["tarea", ...issue.area].flatMap((l) => ["--label", l]),
+        ...(asignados.length ? ["--assignee", asignados.join(",")] : []),
       ],
       issue.body,
     );
     creados++;
     pausa(1000); // GitHub limita la creación rápida de contenido.
+  } else if (asignados.length) {
+    gh(["issue", "edit", url, "--add-assignee", asignados.join(",")]);
   }
 
   const item = DRY
     ? { id: "ITEM" }
     : ghJson(["project", "item-add", String(project.number), "--owner", OWNER, "--url", url, "--format", "json"]);
-  if (nuevo) ponerCampo(item.id, "Status", "Backlog");
+  if (nuevo || statusReiniciado) ponerCampo(item.id, "Status", "Backlog");
   ponerCampo(item.id, "Prioridad", prioridades[issue.prio]);
-  ponerCampo(item.id, "Rol", roles[issue.rol]);
+  if (issue.rol) ponerCampo(item.id, "Rol", roles[issue.rol]);
+  ponerCampo(item.id, "Puntos", issue.pts);
 
-  log(nuevo ? "creado " : "ya existía", issue.titulo, url ?? "");
+  log(nuevo ? "creado " : "actualizado", issue.titulo, asignados.join(", "), url ?? "");
 }
 
 console.log(`\nListo: ${creados} issues nuevos de ${issues.length}.`);
