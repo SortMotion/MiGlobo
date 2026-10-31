@@ -14,9 +14,9 @@ Lo más complejo (integraciones y módulos centrales) está entre Adriel y Andy.
 
 | Rol | Quién | Área | Puntos | Mínimo demo |
 |---|---|---|---|---|
-| Adriel · Web | Adriel ([@ByiDray](https://github.com/ByiDray)) | Módulos centrales del panel: pedidos, conversaciones, respuestas, pagos y entregas, Storage | 31 | 23 |
+| Adriel · Web | Adriel ([@ByiDray](https://github.com/ByiDray)) | Configuración del repo; módulos centrales del panel: pedidos, conversaciones, respuestas, pagos y entregas, Storage | 32 | 24 |
 | Andy · Automatización e IA | Andy ([@andyPlazaCardenas](https://github.com/andyPlazaCardenas)) | Meta/WhatsApp, n8n, prompt de IA, pedido por IA de punta a punta, despliegue de n8n | 30 | 24 |
-| Diego · Datos, evaluación y UI | Diego ([@diegohdez100106-ya](https://github.com/diegohdez100106-ya)) | Supabase, análisis y evaluación, bocetos, pantallas sencillas del panel, Vercel | 29 | 24 |
+| Diego · Datos, evaluación y UI | Diego ([@diegohdez100106-ya](https://github.com/diegohdez100106-ya)) | Supabase, análisis y evaluación, bocetos, pantallas sencillas del panel, Vercel | 28 | 23 |
 
 Las tareas **compartidas** (16 pts) son de los tres; el responsable las organiza:
 
@@ -31,7 +31,7 @@ Las tareas **compartidas** (16 pts) son de los tres; el responsable las organiza
 
 ## Fase 0 · Arranque
 
-- [ ] #1 Configurar repo: proteger `main` e invitar al equipo · Diego
+- [ ] #1 Configurar repo: proteger `main` e invitar al equipo · Adriel
 - [ ] #2 Proyecto de Supabase + migraciones ([`supabase.md`](supabase.md)) · Diego
 - [ ] #3 Cada integrante corre la web · todos
 - [ ] #4 App de Meta + número de prueba de WhatsApp ([`whatsapp.md`](whatsapp.md)) · Andy

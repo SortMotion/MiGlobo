@@ -131,15 +131,16 @@ const ponerCampo = (itemId, campo, valor) => {
 const existentes = new Map(
   DRY
     ? []
-    : ghJson(["issue", "list", "--repo", REPO, "--state", "all", "--limit", "500", "--json", "title,url"]).map(
-        (x) => [x.title, x.url],
+    : ghJson(["issue", "list", "--repo", REPO, "--state", "all", "--limit", "500", "--json", "title,url,assignees"]).map(
+        (x) => [x.title, { url: x.url, asignados: x.assignees.map((a) => a.login) }],
       ),
 );
 
 let creados = 0;
 for (const issue of issues) {
   const asignados = issue.rol ? equipo[issue.rol] : [];
-  let url = existentes.get(issue.titulo);
+  const existente = existentes.get(issue.titulo);
+  let url = existente?.url;
   const nuevo = !url;
   if (nuevo) {
     url = gh(
@@ -153,8 +154,17 @@ for (const issue of issues) {
     );
     creados++;
     pausa(1000); // GitHub limita la creación rápida de contenido.
-  } else if (asignados.length) {
-    gh(["issue", "edit", url, "--add-assignee", asignados.join(",")]);
+  } else {
+    // Deja exactamente a quien diga backlog.mjs.
+    const agregar = asignados.filter((u) => !existente.asignados.includes(u));
+    const quitar = existente.asignados.filter((u) => !asignados.includes(u));
+    if (agregar.length || quitar.length) {
+      gh([
+        "issue", "edit", url,
+        ...(agregar.length ? ["--add-assignee", agregar.join(",")] : []),
+        ...(quitar.length ? ["--remove-assignee", quitar.join(",")] : []),
+      ]);
+    }
   }
 
   const item = DRY

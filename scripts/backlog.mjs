@@ -59,7 +59,7 @@ export const issues = [
   // ─── Fase 0 · Arranque ────────────────────────────────────────────
   i({
     titulo: "Configurar el repo: proteger main e invitar al equipo",
-    fase: 0, area: ["docs"], rol: "C", prio: "M", pts: 1,
+    fase: 0, area: ["docs"], rol: "A", prio: "M", pts: 1,
     que: "Dejar el repositorio listo para trabajar con Pull Requests.",
     listo: [
       "Andy y Diego tienen acceso de escritura al repo",
