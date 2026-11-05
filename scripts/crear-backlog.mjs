@@ -131,16 +131,34 @@ const ponerCampo = (itemId, campo, valor) => {
 const existentes = new Map(
   DRY
     ? []
-    : ghJson(["issue", "list", "--repo", REPO, "--state", "all", "--limit", "500", "--json", "title,url,assignees"]).map(
-        (x) => [x.title, { url: x.url, asignados: x.assignees.map((a) => a.login) }],
+    : ghJson(["issue", "list", "--repo", REPO, "--state", "all", "--limit", "500", "--json", "title,url,state,assignees"]).map(
+        (x) => [x.title, { url: x.url, abierto: x.state === "OPEN", asignados: x.assignees.map((a) => a.login) }],
       ),
 );
 
+const numero = (url) => url.split("/").pop();
+const urls = new Map();
+
 let creados = 0;
+let cerrados = 0;
 for (const issue of issues) {
   const asignados = issue.rol ? equipo[issue.rol] : [];
   const existente = existentes.get(issue.titulo);
   let url = existente?.url;
+
+  // Issues que se quitaron del backlog: se cierran como "not planned" y salen del Project.
+  if (issue.cerrar) {
+    if (!existente?.abierto) continue;
+    gh(["issue", "close", url, "--reason", "not planned", "--comment", "Fuera del backlog: el tablero solo lleva tareas de código."]);
+    const item = DRY
+      ? { id: "ITEM" }
+      : ghJson(["project", "item-add", String(project.number), "--owner", OWNER, "--url", url, "--format", "json"]);
+    gh(["project", "item-delete", String(project.number), "--owner", OWNER, "--id", item.id]);
+    cerrados++;
+    log("cerrado  ", issue.titulo, url ?? "");
+    continue;
+  }
+
   const nuevo = !url;
   if (nuevo) {
     url = gh(
@@ -175,8 +193,24 @@ for (const issue of issues) {
   if (issue.rol) ponerCampo(item.id, "Rol", roles[issue.rol]);
   ponerCampo(item.id, "Puntos", issue.pts);
 
+  urls.set(issue.titulo, url);
   log(nuevo ? "creado " : "actualizado", issue.titulo, asignados.join(", "), url ?? "");
 }
 
-console.log(`\nListo: ${creados} issues nuevos de ${issues.length}.`);
+// ─── Sub-issues ───────────────────────────────────────────────────────
+for (const issue of issues.filter((x) => x.padre && !x.cerrar)) {
+  const padre = urls.get(issue.padre);
+  const hijo = urls.get(issue.titulo);
+  if (DRY || !padre || !hijo) {
+    log("sub-issue", issue.titulo, "→", issue.padre);
+    continue;
+  }
+  const yaLigados = ghJson(["api", `repos/${REPO}/issues/${numero(padre)}/sub_issues`]).map((x) => String(x.number));
+  if (yaLigados.includes(numero(hijo))) continue;
+  const hijoId = gh(["api", `repos/${REPO}/issues/${numero(hijo)}`, "--jq", ".id"]);
+  gh(["api", `repos/${REPO}/issues/${numero(padre)}/sub_issues`, "-F", `sub_issue_id=${hijoId}`]);
+  log("sub-issue", `#${numero(hijo)} → #${numero(padre)}`);
+}
+
+console.log(`\nListo: ${creados} issues nuevos, ${cerrados} cerrados, ${issues.length} en backlog.mjs.`);
 if (!DRY) console.log(`Project: https://github.com/orgs/${OWNER}/projects/${project.number}`);
