@@ -37,6 +37,8 @@ Prioridad: **M** = mínimo para la demo · **D** = deseable · **F** = futuro.
 | RF-32 | vendedor | avanzar el estado (pendiente → confirmado → listo → entregado) | M | ✅ base |
 | RF-33 | vendedor | crear, corregir o cancelar un pedido a mano | M | ⬜ |
 | RF-34 | vendedor | ver de qué mensaje salió un pedido de la IA | D | ⬜ |
+| RF-35 | vendedor | filtrar y buscar pedidos por estado, cliente y fecha | D | ⬜ |
+| RF-36 | vendedor | exportar mis pedidos a CSV | D | ⬜ |
 
 ### Anticipos
 | ID | Como… | quiero… | Prioridad | Estado |
@@ -52,6 +54,16 @@ Prioridad: **M** = mínimo para la demo · **D** = deseable · **F** = futuro.
 | RF-51 | vendedor | ver las entregas del día | M | ✅ base |
 | RF-52 | vendedor | marcar una entrega como realizada | M | ⬜ |
 | RF-53 | comprador | recibir recordatorio por WhatsApp el día de la entrega | D | ⬜ |
+
+### Clientes
+| ID | Como… | quiero… | Prioridad | Estado |
+|---|---|---|---|---|
+| RF-70 | vendedor | ver a mis clientes con sus pedidos y lo que me deben | D | ⬜ |
+
+### Reportes
+| ID | Como… | quiero… | Prioridad | Estado |
+|---|---|---|---|---|
+| RF-80 | vendedor | ver cuánto vendí, cobré y me deben en la semana | D | ⬜ |
 
 ### Página pública
 | ID | Como… | quiero… | Prioridad | Estado |

@@ -120,7 +120,7 @@ export const issues = [
 
   // ─── Fase 1 · Análisis ────────────────────────────────────────────
   i({
-    titulo: "Entrevistar a 3–5 emprendedores estudiantiles",
+    titulo: "Entrevistar a 3–5 emprendedores estudiantiles", cerrar: true,
     fase: 1, area: ["evaluacion"], rol: "T", prio: "M", pts: 3,
     que: "Entender cómo venden hoy, desde el primer mensaje hasta la entrega.",
     listo: [
@@ -132,7 +132,7 @@ export const issues = [
     refs: [doc("docs/requerimientos.md", "Guía de entrevista")],
   }),
   i({
-    titulo: "Ajustar requerimientos y prioridades con las entrevistas",
+    titulo: "Ajustar requerimientos y prioridades con las entrevistas", cerrar: true,
     fase: 1, area: ["docs"], rol: "C", prio: "M", pts: 2,
     que: "Actualizar la lista de requerimientos con lo que dijeron los emprendedores.",
     listo: [
@@ -142,7 +142,7 @@ export const issues = [
     refs: [doc("docs/requerimientos.md")],
   }),
   i({
-    titulo: "Documentar la viabilidad técnica de conectar las redes",
+    titulo: "Documentar la viabilidad técnica de conectar las redes", cerrar: true,
     fase: 1, area: ["n8n", "docs"], rol: "B", prio: "M", pts: 3,
     que: "Responder la pregunta abierta del análisis: qué se puede conectar, con qué permisos y qué límites.",
     listo: [
@@ -153,7 +153,7 @@ export const issues = [
     refs: [doc("docs/whatsapp.md")],
   }),
   i({
-    titulo: "Decidir y documentar cómo se manejan los pagos",
+    titulo: "Decidir y documentar cómo se manejan los pagos", cerrar: true,
     fase: 1, area: ["docs"], rol: "C", prio: "M", pts: 1,
     que: "Pregunta abierta: ¿cobro dentro de la página o solo registro de anticipos? Propuesta actual: solo registro.",
     listo: [
@@ -163,7 +163,7 @@ export const issues = [
     refs: [doc("docs/arquitectura.md")],
   }),
   i({
-    titulo: "Medir la línea base (semana sin MiGlobo)",
+    titulo: "Medir la línea base (semana sin MiGlobo)", cerrar: true,
     fase: 1, area: ["evaluacion"], rol: "C", prio: "M", pts: 3,
     que: "Medir cómo les va hoy a los emprendedores para compararlo al final.",
     listo: [
@@ -176,7 +176,7 @@ export const issues = [
 
   // ─── Fase 2 · Diseño ──────────────────────────────────────────────
   i({
-    titulo: "Bocetos de las pantallas principales en celular",
+    titulo: "Bocetos de las pantallas principales en celular", cerrar: true,
     fase: 2, area: ["web"], rol: "C", prio: "M", pts: 3,
     que: "Diseñar cómo se ven y se usan las pantallas antes de programarlas.",
     listo: [
@@ -266,7 +266,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-33 Crear, editar y cancelar pedidos a mano",
-    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 8, rf: "RF-33",
+    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 0, rf: "RF-33",
     que: "El vendedor puede registrar pedidos que no llegaron por WhatsApp y corregir los de la IA.",
     listo: [
       "Formulario de nuevo pedido: cliente, productos del catálogo, cantidades, notas",
@@ -277,7 +277,7 @@ export const issues = [
   }),
   i({
     titulo: "RF-40 Registrar anticipos y pagos de un pedido",
-    fase: 3, area: ["web", "db"], rol: "A", prio: "M", pts: 3, rf: "RF-40",
+    fase: 3, area: ["web", "db"], rol: "C", prio: "M", pts: 3, rf: "RF-40",
     que: "Desde el detalle del pedido, registrar cuánto pagó el cliente y cómo.",
     listo: [
       "Formulario: monto, tipo (anticipo/liquidación), método",
@@ -433,7 +433,7 @@ export const issues = [
 
   // ─── Fase 4 · Evaluación ──────────────────────────────────────────
   i({
-    titulo: "Dar de alta a los emprendedores de prueba",
+    titulo: "Dar de alta a los emprendedores de prueba", cerrar: true,
     fase: 4, area: ["evaluacion"], rol: "T", prio: "M", pts: 2,
     que: "Preparar a los participantes de la prueba de campo.",
     listo: [
@@ -445,7 +445,7 @@ export const issues = [
     refs: [doc("docs/evaluacion.md")],
   }),
   i({
-    titulo: "Periodo de uso real (1–2 semanas)",
+    titulo: "Periodo de uso real (1–2 semanas)", cerrar: true,
     fase: 4, area: ["evaluacion"], rol: "T", prio: "M", pts: 3,
     que: "Los participantes venden usando MiGlobo y llenan el formulario diario.",
     listo: [
@@ -455,7 +455,7 @@ export const issues = [
     ],
   }),
   i({
-    titulo: "Medición final, cuestionario SUS y precisión de la IA",
+    titulo: "Medición final, cuestionario SUS y precisión de la IA", cerrar: true,
     fase: 4, area: ["evaluacion"], rol: "C", prio: "M", pts: 3,
     que: "Llenar la tabla *Después* y comparar.",
     listo: [
@@ -466,7 +466,7 @@ export const issues = [
     refs: [doc("docs/evaluacion.md")],
   }),
   i({
-    titulo: "Reporte de resultados",
+    titulo: "Reporte de resultados", cerrar: true,
     fase: 4, area: ["docs"], rol: "T", prio: "M", pts: 5,
     que: "Documento final que demuestra si se cumplió el objetivo general.",
     listo: [
@@ -476,13 +476,111 @@ export const issues = [
     ],
   }),
   i({
-    titulo: "Preparar la demo final",
+    titulo: "Preparar la demo final", cerrar: true,
     fase: 4, area: ["docs"], rol: "T", prio: "M", pts: 2,
     que: "Presentación en vivo del flujo completo.",
     listo: [
       "Guion: mensaje por WhatsApp → pedido en el panel → anticipo → entrega",
       "Datos de demo limpios",
       "Plan B grabado en video por si falla internet",
+    ],
+  }),
+
+  // ─── Reestructura (nov 2026): RF-33 en partes y módulos nuevos ────
+  // `padre` = título del issue al que se cuelgan como sub-issues.
+  i({
+    titulo: "RF-33a Página de detalle del pedido",
+    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 3, rf: "RF-33",
+    padre: "RF-33 Crear, editar y cancelar pedidos a mano",
+    que: "Base para las demás partes de RF-33: ver todo lo de un pedido en una sola pantalla.",
+    listo: [
+      "Ruta `/panel/pedidos/[id]` con cliente, estado, notas y fecha",
+      "Tabla de productos del pedido (`pedido_items`) con subtotal",
+      "Pagos del pedido con pagado y saldo (vista `pedidos_resumen`)",
+      "Entrega programada, si hay",
+      "Cada renglón de la lista de pedidos liga a su detalle",
+      "404 si el pedido no existe o es de otro negocio",
+    ],
+  }),
+  i({
+    titulo: "RF-33b Crear pedido a mano",
+    fase: 3, area: ["web"], rol: "A", prio: "M", pts: 3, rf: "RF-33",
+    padre: "RF-33 Crear, editar y cancelar pedidos a mano",
+    que: "Registrar pedidos que no llegaron por WhatsApp (en persona, por Instagram, etc.).",
+    listo: [
+      "Botón *Nuevo pedido* en `/panel/pedidos`",
+      "Elegir cliente existente o crear uno nuevo con nombre y canal",
+      "Agregar productos del catálogo con cantidad; el precio se toma del producto",
+      "Total calculado en el servidor, no confiado al navegador",
+      "Al guardar, redirige al detalle del pedido (RF-33a)",
+    ],
+  }),
+  i({
+    titulo: "RF-33c Editar los productos de un pedido",
+    fase: 3, area: ["web", "db"], rol: "A", prio: "M", pts: 3, rf: "RF-33",
+    padre: "RF-33 Crear, editar y cancelar pedidos a mano",
+    que: "Corregir pedidos, sobre todo los que creó la IA (productos con precio 0 o cantidad equivocada).",
+    listo: [
+      "En el detalle: cambiar cantidad, quitar producto y agregar producto",
+      "Asignar un producto del catálogo a un renglón que la IA no reconoció",
+      "El total del pedido se recalcula en la base de datos (función o trigger), no a mano",
+      "No se puede editar un pedido entregado o cancelado",
+    ],
+  }),
+  i({
+    titulo: "RF-33d Cancelar pedido con confirmación",
+    fase: 3, area: ["web"], rol: "C", prio: "M", pts: 1, rf: "RF-33",
+    padre: "RF-33 Crear, editar y cancelar pedidos a mano",
+    que: "Marcar un pedido como cancelado sin borrarlo.",
+    listo: [
+      "Botón *Cancelar pedido* en el detalle (RF-33a) que pide confirmación",
+      "El estado pasa a `cancelado` y sus entregas programadas a `cancelada`",
+      "Los pedidos cancelados se ven en gris en la lista",
+    ],
+  }),
+  i({
+    titulo: "RF-80 Resumen de ventas de la semana",
+    fase: 3, area: ["web", "db"], rol: "B", prio: "D", pts: 5, rf: "RF-80",
+    que: "Que el vendedor vea cómo le fue sin hacer cuentas: cuánto vendió, cuánto cobró y cuánto le deben.",
+    listo: [
+      "Vista o función SQL con: total vendido, cobrado (pagos verificados) y por cobrar, de la semana actual y la anterior",
+      "Productos más vendidos de la semana",
+      "Pedidos cancelados no cuentan",
+      "Sección en `/panel` (Resumen) usable en celular",
+      "Semanas calculadas en hora de México, no del servidor",
+    ],
+  }),
+  i({
+    titulo: "RF-70 Clientes con su historial",
+    fase: 3, area: ["web"], rol: "C", prio: "D", pts: 5, rf: "RF-70",
+    que: "Saber quién compra seguido y quién debe dinero.",
+    listo: [
+      "Página `/panel/clientes` con nombre, canal, número de pedidos y saldo pendiente",
+      "Detalle `/panel/clientes/[id]` con sus pedidos y sus últimos mensajes",
+      "Editar el nombre del cliente (WhatsApp a veces manda solo el número)",
+      "Liga en el menú del panel",
+    ],
+  }),
+  i({
+    titulo: "RF-35 Filtros y búsqueda de pedidos",
+    fase: 3, area: ["web"], rol: "C", prio: "D", pts: 3, rf: "RF-35",
+    que: "Encontrar un pedido rápido cuando ya hay muchos.",
+    listo: [
+      "Filtro por estado (abiertos por defecto, todos, entregados, cancelados)",
+      "Búsqueda por nombre de cliente",
+      "Rango de fechas",
+      "Los filtros viven en la URL (`?estado=…`) para poder compartir o recargar",
+    ],
+  }),
+  i({
+    titulo: "RF-36 Exportar pedidos a CSV",
+    fase: 3, area: ["web"], rol: "C", prio: "D", pts: 2, rf: "RF-36",
+    que: "Descargar los pedidos para abrirlos en Excel o Google Sheets (también sirve para la evaluación).",
+    listo: [
+      "Botón *Exportar CSV* en `/panel/pedidos` que respeta los filtros de RF-35",
+      "Route Handler que solo exporta pedidos del negocio del usuario",
+      "Columnas: fecha, cliente, estado, total, pagado, saldo, productos",
+      "Se abre bien en Excel (acentos y montos)",
     ],
   }),
 ];
